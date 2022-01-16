@@ -1,17 +1,13 @@
-from brownie import Lottery, config, network, MockV3Aggregator
-
+from webbrowser import get
 from scripts.helpful_scripts import (
     get_account,
-    LOCAL_BLOCKCHAIN_ENVIRONMENTS,
     deploy_mock,
+    LOCAL_BLOCKCHAIN_ENVIRONMENTS,
 )
+from brownie import network, config, MockV3Aggregator, Lottery
 
 
-def main():
-    deploy_lottery()
-
-
-def deploy_lottery():
+def test_deploy():
     account = get_account()
 
     if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
@@ -28,5 +24,5 @@ def deploy_lottery():
         config["networks"][network.show_active()]["fee"],
         {"from": account},
     )
-
-    
+    print(f"lottery.owner is {lottery.owner()}")
+    assert lottery.owner() == account
